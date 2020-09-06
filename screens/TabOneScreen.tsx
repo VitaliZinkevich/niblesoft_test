@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import { AsyncStorage } from 'react-native';
 import { Text, View } from '../components/Themed';
 import * as Location from 'expo-location';
 
@@ -27,16 +27,33 @@ export default function TabOneScreen() {
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [reverseLocation, setreverseLocation] = React.useState(null);
   const [wether, setWether] = React.useState(null);
+  const [history, setHistory] = React.useState(null);
+  
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('history');
+      if (!value) {
+        return false;
+      } else {
+        return JSON.parse (value);
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  let locationText : null| string = 'Loading...';
+  let reverseLocationText = '';
+  let whetherString = '';
 
   React.useEffect(() => {
     (async () => {
+      // await AsyncStorage.removeItem('history')
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
       }
-
-
-
       let location = await Location.getCurrentPositionAsync({});
       setLocation (location)
       let coordinates: {latitude: number,longitude: number}  = {latitude: location?.coords?.latitude, longitude: location?.coords?.longitude}
@@ -44,37 +61,43 @@ export default function TabOneScreen() {
       setreverseLocation (reverseLocation)
       let weather = await getWeather(coordinates)
       setWether (weather)
-      storeData ({data: 111})
-      
+      let data = await getData();
+      await setHistory (data? data : [])
     })();
   }, []);
+  
+  React.useEffect(() => {
+    console.log('set storage')
+    if (locationText && reverseLocationText && whetherString) {
+      if (history) {
+        storeData ([...history, [new Date (Date.now()).toLocaleString(), locationText, reverseLocationText, whetherString]])
+      } else {
+        storeData ([[new Date (Date.now()).toLocaleString(), locationText, reverseLocationText, whetherString]])
+      }
+    }
+  }, [history])
 
-  let locationText : null| string = 'Loading...';
-  let reverseLocationText = '';
-  let whetherString = '';
+
   if (errorMsg) {
     locationText = errorMsg;
-  } else if (location) {
-    locationText = JSON.stringify(location);
-    reverseLocationText = JSON.stringify(reverseLocation);
-    whetherString = JSON.stringify(wether);
-  }
+  } 
+
+  if (location) locationText =  `Координаты: ${location.coords?.latitude} ${location.coords?.longitude}`;
+  if (reverseLocation && reverseLocation[0]) reverseLocationText = `Адрес: ${reverseLocation[0]?.country} ${reverseLocation[0]?.city} ${reverseLocation[0]?.street}`;
+  if (wether) whetherString = `Погода: ${wether.weather[0].main}, ${wether.weather[0].description}, Температура: Факт ${wether.main.temp} Ощущается: ${wether.main.feels_like} и другое...`;
+  
 
   return (
     <View style={styles.container}>
-    <Text>{locationText}</Text>
-    <Text>{reverseLocationText}</Text>
-    <Text>{whetherString}</Text>
-  </View>
+      <Text>{locationText}</Text>
+      <Text>{reverseLocationText}</Text>
+      <Text>{whetherString}</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -84,4 +107,6 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  head: { height: 40, backgroundColor: '#f1f8ff' },
+  text: { margin: 6 }
 });

@@ -1,58 +1,46 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const getData = async () => {
-  try {
-    const value = await AsyncStorage.getItem('history')
-    if(value !== null) {
-      // value previously stored
-      return value
-    }
-  } catch(e) {
-    console.log(e)
-  }
-}
-import { Text, View } from '../components/Themed';
+import { Table, Row, Rows } from 'react-native-table-component';
+import { View } from '../components/Themed';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function TabTwoScreen() {
-  
-  const [histrory, setHistrory] = React.useState(null);
 
+  const [history, setHistory] = React.useState([]);
+  const tableHead = ['Дата', 'Координаты', 'Адрес', 'Погода']
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('history')
+      if(value !== null) {
+        console.log('2', value)
+        setHistory (JSON.parse (value))
+      } 
+    } catch(e) {
+      console.log(e)
+    }
+  }
   React.useEffect(() => {
     (async () => {
-      let data = await getData ()
-      console.log(data)
-      setHistrory (data)
-      
+      await getData ()
     })();
   }, []);
 
-  let historyText : null | string = 'Loading'
-  if (histrory) {
-    historyText = histrory
-  }
-
   return (
     <View style={styles.container}>
-      <Text>{historyText}</Text>
-    </View>
+       <ScrollView>
+        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+          <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+          <Rows data={history} textStyle={styles.text}/>
+        </Table>
+        </ScrollView>
+      </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  head: { height: 40, backgroundColor: '#f1f8ff' },
+  text: { margin: 6 }
 });
