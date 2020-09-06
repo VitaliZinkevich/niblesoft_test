@@ -1,15 +1,41 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('history')
+    if(value !== null) {
+      // value previously stored
+      return value
+    }
+  } catch(e) {
+    console.log(e)
+  }
+}
 import { Text, View } from '../components/Themed';
 
 export default function TabTwoScreen() {
+  
+  const [histrory, setHistrory] = React.useState(null);
+
+  React.useEffect(() => {
+    (async () => {
+      let data = await getData ()
+      console.log(data)
+      setHistrory (data)
+      
+    })();
+  }, []);
+
+  let historyText : null | string = 'Loading'
+  if (histrory) {
+    historyText = histrory
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+      <Text>{historyText}</Text>
     </View>
   );
 }
