@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { View } from '../components/Themed';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function TabTwoScreen() {
+export default function TabTwoScreen({navigation}) {
 
   const [history, setHistory] = React.useState([]);
   const tableHead = ['Дата', 'Координаты', 'Адрес', 'Погода']
@@ -14,7 +14,6 @@ export default function TabTwoScreen() {
     try {
       const value = await AsyncStorage.getItem('history')
       if(value !== null) {
-        console.log('2', value)
         setHistory (JSON.parse (value))
       } 
     } catch(e) {
@@ -32,7 +31,16 @@ export default function TabTwoScreen() {
        <ScrollView>
         <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={history} textStyle={styles.text}/>
+          {history.map ((row, index)=>{
+            return (<TouchableOpacity key={index} onPress={() => {
+              navigation.navigate('Detailes', {data: row})
+            }}>
+                      <Row  data={row}></Row>
+                    </TouchableOpacity>)
+            
+            
+            
+            })}
         </Table>
         </ScrollView>
       </View>
