@@ -35,11 +35,8 @@ export default function TabTwoScreen({navigation}) {
             return (<TouchableOpacity key={index} onPress={() => {
               navigation.navigate('Detailes', {data: row})
             }}>
-                      <Row  data={row}></Row>
-                    </TouchableOpacity>)
-            
-            
-            
+               <Row  data={row}></Row>
+            </TouchableOpacity>)
             })}
         </Table>
         </ScrollView>
