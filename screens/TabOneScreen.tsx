@@ -67,7 +67,6 @@ export default function TabOneScreen() {
   }, []);
   
   React.useEffect(() => {
-    console.log('set storage')
     if (locationText && reverseLocationText && whetherString) {
       if (history) {
         storeData ([...history, [new Date (Date.now()).toLocaleString(), locationText, reverseLocationText, whetherString]])
