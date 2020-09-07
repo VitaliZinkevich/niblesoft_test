@@ -8,7 +8,7 @@ import * as Location from 'expo-location';
 const API_KEY = '1e5ba5fd40020098fd0d2bb7e5018106';
 
 function getWeather ({latitude, longitude}) {
-  return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&APPID=${API_KEY}&units=metric`)
+  return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&APPID=${API_KEY}&units=metric`)
     .then(response => response.json())
 }
 
@@ -54,6 +54,8 @@ export default function TabOneScreen() {
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
       }
+      
+      Location.setApiKey('AIzaSyClysK3d4SsFgKaDzKcZn4OIxGbEzWB0u4')
       let location = await Location.getCurrentPositionAsync({});
       setLocation (location)
       let coordinates: {latitude: number,longitude: number}  = {latitude: location?.coords?.latitude, longitude: location?.coords?.longitude}
