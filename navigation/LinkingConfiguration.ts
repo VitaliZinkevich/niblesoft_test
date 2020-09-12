@@ -6,12 +6,12 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          Current: {
             screens: {
               TabOneScreen: 'one',
             },
           },
-          TabTwo: {
+          History: {
             screens: {
               TabTwoScreen: 'two',
             },

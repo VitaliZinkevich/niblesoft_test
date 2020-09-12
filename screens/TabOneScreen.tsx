@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Button } from 'react-native';
 
 import { AsyncStorage } from 'react-native';
 import { Text, View } from '../components/Themed';
@@ -90,15 +90,23 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>{locationText}</Text>
-      <Text>{reverseLocationText}</Text>
-      <Text>{whetherString}</Text>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <View>
+        <Text>{locationText}</Text>
+        <Text>{reverseLocationText}</Text>
+        <Text>{whetherString}</Text>
+      </View>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -108,6 +116,5 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
-  head: { height: 40, backgroundColor: '#f1f8ff' },
-  text: { margin: 6 }
 });
+

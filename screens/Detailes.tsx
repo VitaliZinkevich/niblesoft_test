@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text } from '../components/Themed';
 
 export default function Detailes(
         {
@@ -14,7 +14,7 @@ export default function Detailes(
         <Text style={styles.title}>Detailes</Text>
         <Text>{params.map ((text: string) => text)}</Text>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.link}>
-          <Text style={styles.linkText}>Назад</Text>
+          <Text>Назад</Text>
         </TouchableOpacity>
       </View>
     );
@@ -23,21 +23,39 @@ export default function Detailes(
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 20,
     },
     title: {
       fontSize: 20,
       fontWeight: 'bold',
     },
-    link: {
-      marginTop: 15,
-      paddingVertical: 15,
-    },
-    linkText: {
-      fontSize: 14,
-      color: '#2e78b7',
+    separator: {
+      marginVertical: 30,
+      height: 1,
+      width: '80%',
     },
   });
+  
+
+  // const styles = StyleSheet.create({
+  //   container: {
+  //     flex: 1,
+  //     backgroundColor: '#fff',
+  //     alignItems: 'center',
+  //     justifyContent: 'center',
+  //     padding: 20,
+  //   },
+  //   title: {
+  //     fontSize: 20,
+  //     fontWeight: 'bold',
+  //   },
+  //   link: {
+  //     marginTop: 15,
+  //     paddingVertical: 15,
+  //   },
+  //   linkText: {
+  //     fontSize: 14,
+  //     color: '#2e78b7',
+  //   },
+  // });

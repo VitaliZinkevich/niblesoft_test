@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Table, Row, Rows } from 'react-native-table-component';
-import { View } from '../components/Themed';
+import { View, Text } from '../components/Themed';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function TabTwoScreen({navigation}) {
@@ -27,25 +27,44 @@ export default function TabTwoScreen({navigation}) {
   }, []);
 
   return (
+
     <View style={styles.container}>
-       <ScrollView>
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          {history.map ((row, index)=>{
-            return (<TouchableOpacity key={index} onPress={() => {
-              navigation.navigate('Detailes', {data: row})
-            }}>
-               <Row  data={row}></Row>
-            </TouchableOpacity>)
-            })}
-        </Table>
-        </ScrollView>
+    <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+    <ScrollView>
+      <View>
+        <View>
+          {tableHead.map (e => {e})}
+        </View>
+        {history.map ((row, index)=>{
+          return (<TouchableOpacity key={index} onPress={() => {
+            navigation.navigate('Detailes', {data: row})
+          }}>
+              <View >
+                <Text>{row && row.map (el => el)}</Text>
+              </View>
+          </TouchableOpacity>)
+          })}
       </View>
+    </ScrollView>
+    <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+  </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+  },
   head: { height: 40, backgroundColor: '#f1f8ff' },
-  text: { margin: 6 }
 });
