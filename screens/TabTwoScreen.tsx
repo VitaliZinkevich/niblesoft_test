@@ -23,6 +23,11 @@ export default inject ('observableStore') (observer (function TabTwoScreen({navi
     )
   }
 
+  function NoHistory() {
+    return (<View><Text>История пуста</Text></View>)
+    
+  }
+
   return (
     <View style={styles.container}>
     <View>
@@ -40,7 +45,7 @@ export default inject ('observableStore') (observer (function TabTwoScreen({navi
     <ScrollView>
       <View>
         <View>
-          {RenderRow(tableHead)}
+          {observableStore.history.length ? RenderRow(tableHead) : NoHistory()}
         </View>
         {observableStore.history.map ((row, index)=>{
           return (<TouchableOpacity key={index} onPress={() => {
