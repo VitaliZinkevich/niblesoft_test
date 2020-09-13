@@ -37,6 +37,7 @@ class ObservableStore {
   @action clearStorageHistory = async () => {
     try {
       await AsyncStorage.removeItem('history');
+      this.setHistory([]);
     } catch (e) {
       console.log(e);
     }

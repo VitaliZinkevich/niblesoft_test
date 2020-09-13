@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { View, Text } from '../components/Themed';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, TouchableOpacity } from '../components/Themed';
+import { ScrollView } from 'react-native-gesture-handler';
 import { inject, observer } from 'mobx-react';
 
 export default inject ('observableStore') (observer (function TabTwoScreen({navigation, observableStore}) {
@@ -16,6 +16,18 @@ export default inject ('observableStore') (observer (function TabTwoScreen({navi
 
   return (
     <View style={styles.container}>
+    <View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          console.log('clear')
+          observableStore.clearStorageHistory()
+        }}
+      >
+        <Text style={styles.buttonText}>Очистить</Text>
+      </TouchableOpacity>  
+    </View>  
+      
     <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     <ScrollView>
       <View>
@@ -49,9 +61,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   separator: {
-    marginVertical: 30,
+    marginVertical: 10,
     height: 1,
     width: '80%',
+  },
+  button : {
+    marginVertical: 20,
+  },
+  buttonText: {
+    fontSize: 20,
   },
   head: { height: 40, backgroundColor: '#f1f8ff' },
 });
