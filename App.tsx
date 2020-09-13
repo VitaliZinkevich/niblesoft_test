@@ -3,8 +3,7 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
-import { AppearanceProvider } from 'react-native-appearance'
-import { Provider, PropTypes } from 'mobx-react';
+import { Provider } from 'mobx-react';
 import observableStore from './store/store';
 
 export default function App() {
@@ -14,11 +13,9 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <AppearanceProvider>
           <Provider observableStore={observableStore}>
               <Navigation observableStore={observableStore}/>
           </Provider>
-        </AppearanceProvider>
         <StatusBar />
       </SafeAreaProvider>
     );
