@@ -13,7 +13,7 @@ export default function Detailes(
       <View style={styles.container}>
         <Text style={styles.title}>Detailes</Text>
         <Text>{params.map ((text: string) => text)}</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.link}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text>Назад</Text>
         </TouchableOpacity>
       </View>
@@ -36,26 +36,3 @@ export default function Detailes(
       width: '80%',
     },
   });
-  
-
-  // const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     backgroundColor: '#fff',
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //     padding: 20,
-  //   },
-  //   title: {
-  //     fontSize: 20,
-  //     fontWeight: 'bold',
-  //   },
-  //   link: {
-  //     marginTop: 15,
-  //     paddingVertical: 15,
-  //   },
-  //   linkText: {
-  //     fontSize: 14,
-  //     color: '#2e78b7',
-  //   },
-  // });

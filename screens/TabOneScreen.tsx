@@ -3,7 +3,10 @@ import { StyleSheet, Button } from 'react-native';
 
 import { AsyncStorage } from 'react-native';
 import { Text, View } from '../components/Themed';
+// import { Text, View } from 'react-native';
 import * as Location from 'expo-location';
+// import { useTheme } from '../components/ThemeManager'
+import { useTheme } from '@react-navigation/native';
 
 const API_KEY = '1e5ba5fd40020098fd0d2bb7e5018106';
 
@@ -22,7 +25,6 @@ const storeData = async (value) => {
 }
 
 export default function TabOneScreen() {
-
   const [location, setLocation] = React.useState(null);
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [reverseLocation, setreverseLocation] = React.useState(null);
