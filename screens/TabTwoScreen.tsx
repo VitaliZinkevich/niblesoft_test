@@ -6,13 +6,22 @@ import { inject, observer } from 'mobx-react';
 
 export default inject ('observableStore') (observer (function TabTwoScreen({navigation, observableStore}) {
 
-  const tableHead = ['Дата', 'Координаты', 'Адрес', 'Погода']
+  const tableHead = ['Дата', 'Координаты', 'Адрес', 'Погода'];
 
   React.useEffect(() => {
     (async () => {
       await observableStore.getData ()
     })();
   }, []);
+
+
+  function RenderRow(data: any[]) {
+    return (
+        <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
+          {data.map (element =><View key={element} style={{ flex: 1, alignSelf: 'stretch' }} ><Text>{element}</Text></View>)}
+        </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -31,23 +40,25 @@ export default inject ('observableStore') (observer (function TabTwoScreen({navi
     <ScrollView>
       <View>
         <View>
-          {/* {tableHead.map (e => <Text key={e}>{e}</Text>)} */}
+          {RenderRow(tableHead)}
         </View>
         {observableStore.history.map ((row, index)=>{
           return (<TouchableOpacity key={index} onPress={() => {
             navigation.navigate('Detailes', {data: row})
           }}>
-              <View>
-                <Text>{row && row.map (el => el)}</Text>
-              </View>
+            {RenderRow(row)}
           </TouchableOpacity>)
           })}
       </View>
+     
+       
+        
     </ScrollView>
     <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
   </View>
   );
 }))
+
 
 const styles = StyleSheet.create({
   container: {
