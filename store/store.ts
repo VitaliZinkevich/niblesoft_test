@@ -2,9 +2,15 @@ import { action, observable } from 'mobx';
 import { AsyncStorage } from 'react-native';
 import * as Location from 'expo-location';
 
+
 class ObservableStore {
   @observable history = [];
+  @observable localTheme: string = 'light';
   API_KEY = '1e5ba5fd40020098fd0d2bb7e5018106';
+
+  @action toggleTheme () {
+    this.localTheme = this.localTheme === 'dark' ? 'light' : 'dark';
+}
 
   @action setHistory(newProperty: any) {
     this.history = newProperty;
@@ -16,7 +22,6 @@ class ObservableStore {
       if (!value) {
         this.setHistory([]);
       } else {
-        console;
         this.setHistory(JSON.parse(value));
       }
     } catch (e) {
@@ -43,7 +48,7 @@ class ObservableStore {
     }
   };
 
-  @action getWeather = async ({
+  getWeather = async ({
     latitude,
     longitude
   }: {
@@ -55,19 +60,19 @@ class ObservableStore {
     ).then(response => response.json());
   };
 
-  @action initLocation = async () => {
+  initLocation = async () => {
     let { status } = await Location.requestPermissionsAsync();
     if (status !== 'granted') {
       alert('Permission to access location was denied');
     }
   };
 
-  @action getCoords = async () => {
+  getCoords = async () => {
     Location.setApiKey('AIzaSyClysK3d4SsFgKaDzKcZn4OIxGbEzWB0u4');
     return await Location.getCurrentPositionAsync({});
   };
 
-  @action getStringsLocation = async (coordinates: {
+  getStringsLocation = async (coordinates: {
     latitude: number;
     longitude: number;
   }) => {

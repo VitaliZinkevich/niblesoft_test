@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { Text, View } from '../components/Themed';
+import { Text, View, TouchableOpacity } from '../components/Themed';
 import { inject, observer } from 'mobx-react';
 
 
 
 export default inject('observableStore') (observer (function TabOneScreen({observableStore}) {
   const [location, setLocation] = React.useState(null);
-  const [errorMsg, setErrorMsg] = React.useState(null);
   const [reverseLocation, setreverseLocation] = React.useState(null);
   const [wether, setWether] = React.useState(null);
 
@@ -37,9 +36,6 @@ export default inject('observableStore') (observer (function TabOneScreen({obser
     }
   })
 
-  if (errorMsg) {
-    locationText = errorMsg;
-  } 
 
   if (location) locationText =  `Координаты: ${location.coords?.latitude} ${location.coords?.longitude}`;
   if (reverseLocation && reverseLocation[0]) reverseLocationText = `Адрес: ${reverseLocation[0]?.country} ${reverseLocation[0]?.city} ${reverseLocation[0]?.street}`;
@@ -47,6 +43,15 @@ export default inject('observableStore') (observer (function TabOneScreen({obser
 
   return (
     <View style={styles.container}>
+      <View>
+      <TouchableOpacity
+        onPress={() => {
+          observableStore.toggleTheme()
+        }}
+      >
+        <Text>Сменить тему</Text>
+      </TouchableOpacity>  
+    </View> 
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <View>
         <Text>{locationText}</Text>
@@ -72,6 +77,9 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  buttonText: {
+    fontSize: 20,
   },
 });
 

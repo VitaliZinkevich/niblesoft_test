@@ -8,33 +8,36 @@ import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { inject, observer } from 'mobx-react';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <BottomTab.Navigator
-      initialRouteName="Current"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-      <BottomTab.Screen
-        name="Current"
-        component={TabOneNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="md-information-circle-outline" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="History"
-        component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="md-repeat" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
-}
+export default inject('observableStore') (observer ( 
+  function BottomTabNavigator({observableStore}) {
+    const colorScheme = observableStore.localTheme;
+  
+    return (
+      <BottomTab.Navigator
+        initialRouteName="Current"
+        tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+        <BottomTab.Screen
+          name="Current"
+          component={TabOneNavigator}
+          options={{
+            tabBarIcon: ({ color }) => <TabBarIcon name="md-information-circle-outline" color={color} />,
+          }}
+        />
+        <BottomTab.Screen
+          name="History"
+          component={TabTwoNavigator}
+          options={{
+            tabBarIcon: ({ color }) => <TabBarIcon name="md-repeat" color={color} />,
+          }}
+        />
+      </BottomTab.Navigator>
+    );
+  }
+))
 
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
