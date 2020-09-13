@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import { AppearanceProvider, /*useColorScheme*/ } from 'react-native-appearance'
+import { AppearanceProvider } from 'react-native-appearance'
 import { Provider } from 'mobx-react';
 import observableStore from './store/store';
 export default function App() {
@@ -17,7 +17,7 @@ export default function App() {
       <SafeAreaProvider>
         <AppearanceProvider>
           <Provider observableStore={observableStore}>
-              <Navigation />
+              <Navigation observableStore={observableStore}/>
           </Provider>
         </AppearanceProvider>
         <StatusBar />

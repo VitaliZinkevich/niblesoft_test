@@ -20,7 +20,6 @@ export default inject ('observableStore') (observer (function TabTwoScreen({navi
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          console.log('clear')
           observableStore.clearStorageHistory()
         }}
       >
