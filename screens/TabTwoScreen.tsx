@@ -37,7 +37,7 @@ export default inject ('observableStore') (observer (function TabTwoScreen({navi
           return (<TouchableOpacity key={index} onPress={() => {
             navigation.navigate('Detailes', {data: row})
           }}>
-              <View >
+              <View>
                 <Text>{row && row.map (el => el)}</Text>
               </View>
           </TouchableOpacity>)

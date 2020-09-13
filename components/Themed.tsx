@@ -28,7 +28,7 @@ export type ViewProps = ThemeProps & DefaultView['props'];
 export type TouchableOpacityProps = ThemeProps & DefaultTouchableOpacity['props'];
 
 export const Text = inject('observableStore') (observer (function (props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
+  const { observableStore, style, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text', observableStore.localTheme);
 
   return <DefaultText style={[{ color }, style]} {...otherProps} />;
