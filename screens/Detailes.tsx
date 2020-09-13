@@ -2,11 +2,7 @@ import * as React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text } from '../components/Themed';
 
-export default function Detailes(
-        {
-        navigation
-      }
-) {
+export default function Detailes({ navigation }) {
     let state = navigation.dangerouslyGetState();
     let params =  state.routes.find ( r => r.name === 'Detailes').params.data;
     return (

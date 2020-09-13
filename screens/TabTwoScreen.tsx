@@ -1,41 +1,28 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Table, Row, Rows } from 'react-native-table-component';
 import { View, Text } from '../components/Themed';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { inject, observer } from 'mobx-react';
 
-export default function TabTwoScreen({navigation}) {
+export default inject ('observableStore') (observer (function TabTwoScreen({navigation, observableStore}) {
 
-  const [history, setHistory] = React.useState([]);
   const tableHead = ['Дата', 'Координаты', 'Адрес', 'Погода']
 
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('history')
-      if(value !== null) {
-        setHistory (JSON.parse (value))
-      } 
-    } catch(e) {
-      console.log(e)
-    }
-  }
   React.useEffect(() => {
     (async () => {
-      await getData ()
+      await observableStore.getData ()
     })();
   }, []);
 
   return (
-
     <View style={styles.container}>
     <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     <ScrollView>
       <View>
         <View>
-          {tableHead.map (e => {e})}
+          {/* {tableHead.map (e => <Text key={e}>{e}</Text>)} */}
         </View>
-        {history.map ((row, index)=>{
+        {observableStore.history.map ((row, index)=>{
           return (<TouchableOpacity key={index} onPress={() => {
             navigation.navigate('Detailes', {data: row})
           }}>
@@ -49,7 +36,7 @@ export default function TabTwoScreen({navigation}) {
     <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
   </View>
   );
-}
+}))
 
 const styles = StyleSheet.create({
   container: {

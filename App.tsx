@@ -3,11 +3,12 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
-// import useColorScheme from './hooks/useColorScheme';
+import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
+import { AppearanceProvider, /*useColorScheme*/ } from 'react-native-appearance'
 import { ThemeManager } from './components/ThemeManager'
-
+import { Provider } from 'mobx-react';
+import observableStore from './store/store';
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
@@ -22,7 +23,9 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <AppearanceProvider>
-            <Navigation colorScheme={colorScheme} />
+          <Provider observableStore={observableStore}>
+              <Navigation colorScheme={colorScheme} />
+          </Provider>
         </AppearanceProvider>
         <StatusBar />
       </SafeAreaProvider>
