@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 class ObservableStore {
   @observable history = [];
   @observable localTheme: string = 'light';
-  API_KEY = '1e5ba5fd40020098fd0d2bb7e5018106';
+  API_KEY = '';
 
   @action toggleTheme () {
     this.localTheme = this.localTheme === 'dark' ? 'light' : 'dark';
